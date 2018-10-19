@@ -41,6 +41,14 @@
                     var type = items[i].type;
                     var mediaL = items[i].images.low_resolution.url;
                     var mediaH = items[i].images.standard_resolution.url;
+                    var videoL = "";
+					var duration = "";
+                    if (type == 'video') {
+                        videoL = items[i].videos.low_resolution.url;
+						getDuration(videoL).then((duration) => {
+							console.log(duration);
+						});
+                    }
                     var text = items[i].caption.text;
                     
                     //console.log("type: " + type + "\nmedia: " + media +"\ntext:" + text);
@@ -50,6 +58,7 @@
                         "type" : type,
                         "photolinkL" : mediaL,
                         "photolinkH": mediaH,
+                        "videolinkL": videoL,
                         "captureText": text
                     });
                 }

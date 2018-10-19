@@ -20,7 +20,8 @@ Module.register('MMM-Instagram', {
         min_timestamp: 0,
         loadingText: 'Loading...',
         showCaptureText: false,
-        maxSizeCaptureText: 200
+        maxSizeCaptureText: 200,
+        showVideo: true,
     },
     
     // Define required scripts
@@ -85,11 +86,19 @@ Module.register('MMM-Instagram', {
         var tagBase = "";
         if (this.config.showCaptureText) {
             var captureText = tempimage.captureText;
+			var object = "";
             if (captureText.length>this.config.maxSizeCaptureText) {
                 captureText = captureText.substring(0,this.config.maxSizeCaptureText)+"...";
             }
-            tagBase = "<figure><img src='" + tempimage.photolinkH + "'>";
-            tagBase += "<figcaption>" + 
+            if (tempimage.type=='image') {
+			    object= "<img src='" + tempimage.photolinkH + "'>";
+            }
+			if (tempimage.type=='video') {
+					object= "<video autoplay><source src='" + tempimage.videolinkL + "' type='video/mp4'></video>";
+			}
+			tagBase = "<figure>";
+			tagBase += object;
+            tagBase += "<figcaption>" +
                 "<div class='small light'>" +
 				"<img src='https://www.instagram.com/favicon.ico'>" +
                 "&nbsp;Instagram</div>" +
