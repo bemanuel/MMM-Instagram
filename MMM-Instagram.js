@@ -22,6 +22,7 @@ Module.register('MMM-Instagram', {
         showCaptureText: false,
         maxSizeCaptureText: 200,
         showVideo: true,
+        videoStdRes: false,
     },
     
     // Define required scripts
@@ -94,7 +95,8 @@ Module.register('MMM-Instagram', {
 			    object= "<img src='" + tempimage.photolinkH + "'>";
             }
 			if (tempimage.type=='video') {
-					object= "<video autoplay><source src='" + tempimage.videolinkL + "' type='video/mp4'></video>";
+                //                    videoLink = (this.config.videoStdRes?tempimage.videolinkH:tempimage.videolinkL);
+					object= "<video autoplay><source src='" + tempimage.videolinkH + "' type='video/mp4'></video>";
 			}
 			tagBase = "<figure>";
 			tagBase += object;

@@ -42,12 +42,11 @@
                     var mediaL = items[i].images.low_resolution.url;
                     var mediaH = items[i].images.standard_resolution.url;
                     var videoL = "";
+                    var videoH = "";
 					var duration = "";
                     if (type == 'video') {
                         videoL = items[i].videos.low_resolution.url;
-						getDuration(videoL).then((duration) => {
-							console.log(duration);
-						});
+                        videoH = items[i].videos.standard_resolution.url;
                     }
                     var text = items[i].caption.text;
                     
@@ -59,6 +58,7 @@
                         "photolinkL" : mediaL,
                         "photolinkH": mediaH,
                         "videolinkL": videoL,
+                        "videolinkH": videoH,
                         "captureText": text
                     });
                 }
