@@ -129,9 +129,11 @@ Module.register('MMM-Instagram', {
     getElementToDisplay:function(item) {
         var result;
         if (item.type == 'video' && this.config.showvideo) {
+            var source = document.createElement("source");
             result = document.createElement("video");
-            result.src = (this.config.useLowResolution?item.videolink:item.videolinkH);
-            result.type = "video/mp4";
+            source.src = (this.config.useLowResolution?item.videolink:item.videolinkH);
+            source.type = "video/mp4";
+            result.appendChild(source);
             result.setAttribute("autoplay");
         }
         if (item.type == 'image') {
