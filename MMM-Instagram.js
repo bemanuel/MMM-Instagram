@@ -80,66 +80,66 @@ Module.register('MMM-Instagram', {
         }
         
         var tempimage = this.images.photo[this.activeItem];
+        var elementDisplay = this.getElementToDisplay(tempimage);
+        Log.info("Element:"+elementDisplay);
         
         // image
         var imageLink = document.createElement('div');
         //imageLink.innerHTML = "<img src='https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'>";
         imageLink.id = "MMM-Instagram-image";
+
         var tagBase = "";
         var fig = document.createElement("figure");
-        // check if the type is a video and if wants to show video
-        var item = this.getImageOrVideo(tempimage);//(tempimage.type=='video' && this.config.showVideo? document.createElement("video"): document.createElement("img") );
 
-        if (this.config.showCaptureText) {
-            var captureText = tempimage.captureText;
-            if (captureText.length>this.config.maxSizeCaptureText) {
-                captureText = captureText.substring(0,this.config.maxSizeCaptureText)+"...";
-            }
-            //tagBase = "<figure><img src='" + (this.config.useLowResolution?tempimage.photolinkL:tempimage.photolinkH) + "'>";
-            var figCap = document.createElement("figcaption");
-            var textNode = document.createTextNode(captureText);
-            var innerDiv = document.createElement("div");
-            innerDiv.className= "small light";
-            var imgInsta = document.createElement("img");
-            imgInsta.src = "https://www.instagram.com/favicon.ico";
-            var textInsta = document.createTextNode("&nbsp;Instagram");
-            innerDiv.appendChild(imgInsta);
-            innerDiv.appendChild(textInsta);
-
-
-            // tagBase += "<figcaption>" + 
-            //    "<div class='small light'>" +
-            //	"<img src='https://www.instagram.com/favicon.ico'>" +
-            //    "&nbsp;Instagram</div>" +
-            //	captureText + "</figcaption></figure>";
-            figCap.appendChild(innerDiv);
-            figCap.appendChild(textNode);
-            fig.appendChild(figCap);
-        } else {
-			tagBase = "<img src='" + tempimage.photolinkL + "'>";
-		}
-		imageLink.innerHTML = tagBase;
+        fig.appendChild(elementDisplay);
         //imageLink.innerHTML = "<img src='" + tempimage.photolink + "'>";
-		imageDisplay.appendChild(imageLink);
-		wrapper.appendChild(imageDisplay);
 
+        //check if display subtitle
+        if (this.config.showCaptureText) {
+            fig.appendChild(this.getTextToDisplay(tempimage.captureText));
+        }
+
+        imageLink.appendChild(fig);
+        
+        imageDisplay.appendChild(imageLink);
+        wrapper.appendChild(imageDisplay);
+       
         return wrapper;
     },
+    getTextToDisplay:function(text) {
+        var figCap = document.createElement("figcaption");
+        var innerDiv = document.createElement("div");
+        var imgInsta = document.createElement("img");
+        var textInsta = document.createTextNode(" Instagram");
+        var textNode = "";
 
-    getImageOrVideo:function(item) {
+        innerDiv.className= "small light";
+        imgInsta.src = "https://www.instagram.com/favicon.ico";
+        innerDiv.appendChild(imgInsta);
+        innerDiv.appendChild(textInsta);
+
+        if (text.length>this.config.maxSizeCaptureText) {
+            text = text.substring(0,this.config.maxSizeCaptureText)+"...";
+        }
+        textNode = document.createTextNode(text);
+        figCap.appendChild(innerDiv);
+        figCap.appendChild(textNode);
+        return figCap;
+    },
+    getElementToDisplay:function(item) {
         var result;
         if (item.type == 'video' && this.config.showvideo) {
             result = document.createElement("video");
-            result.src = (this.config.useLowResolution?item.videoL:item.videoH);
+            result.src = (this.config.useLowResolution?item.videolink:item.videolinkH);
+            result.type = "video/mp4";
             result.setAttribute("autoplay");
         }
         if (item.type == 'image') {
             result = document.createElement("img");
-            result.src = (this.config.useLowResolution?item.photolinkL:item.photolinkH);
+            result.src = (this.config.useLowResolution?item.photolink:item.photolinkH);
         }
         return result;
     },
-
     /* scheduleUpdateInterval()
      * Schedule visual update.
      */

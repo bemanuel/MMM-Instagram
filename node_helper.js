@@ -39,17 +39,29 @@
                 for (var i in items)
                 {
                     var type = items[i].type;
-                    var mediaL = items[i].images.low_resolution.url;
+                    var media = items[i].images.low_resolution.url;
                     var mediaH = items[i].images.standard_resolution.url;
                     var text = items[i].caption.text;
+                    var video = "";
+                    var videoH = "";
+
+
+                    if (type == 'video') {
+                        video = items[i].videos.low_resolution.url;
+                        videoH = items[i].videos.standard_resolution.url;
+                    }
                     
-                    //console.log("type: " + type + "\nmedia: " + media +"\ntext:" + text);
+                    console.log("type: " + type + "\nmedia: " + media +"\ntext:" + text + "\nvideo"+ videoH);
+                    
+                    //console.log("type: " + type + "\nmedia: " + media);
                     
                     // create a new array for each images object in the dictionary
                     images.photo.push( {
                         "type" : type,
-                        "photolinkL" : mediaL,
+                        "photolink" : media,
                         "photolinkH": mediaH,
+                        "videolink": video,
+                        "videolinkH": videoH,
                         "captureText": text
                     });
                 }
